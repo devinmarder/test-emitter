@@ -44,13 +44,9 @@ where `ID` and `Timestamp` can be used to embed an incremental id and the
 current time in the message.
 
 The number of messages sent can be specified with `-count` and the logging
-level can be specified using `-log-level`
+level can be specified using `-log-level`.
 
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first to
 discuss what you would like to change.
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
