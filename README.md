@@ -6,7 +6,7 @@ This is a simple tool designed to emit events. It currently supports stdout and 
 
 ## Prerequisites
 
-- Go 1.16 or higher
+- Go 1.20 or higher
 - AWS CLI (if using AWS SQS)
 
 ## Installation
