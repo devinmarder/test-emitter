@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/config"
+	"github.com/devinmarder/test-emitter/http"
 	"github.com/devinmarder/test-emitter/sqs"
 	"github.com/rs/zerolog"
 	"golang.org/x/sync/errgroup"
@@ -20,6 +21,8 @@ var (
 	count    = flag.Int("count", 1, "number of times to print message")
 	out      = flag.String("out", "stdout", "output destination")
 	queue    = flag.String("queue", "", "sqs queue name")
+	url      = flag.String("url", "", "http url")
+	headers  = flag.String("headers", "", "http headers")
 	logLevel = flag.String("log-level", "info", "log level")
 	msg      = flag.String("msg", "message {{.ID}}", "message to print")
 	file     = flag.String("file", "", "file to read message from")
@@ -69,6 +72,17 @@ func main() {
 		}
 		g.Go(func() error {
 			return sqs.New(cfg, log).NewPublisher(context.Background(), *queue, msgs)
+		})
+	case "http":
+		h, err := http.ParseHeaders(*headers)
+		if err != nil {
+			panic(err)
+		}
+		if *url == "" {
+			panic("url required")
+		}
+		g.Go(func() error {
+			return http.Publisher(context.Background(), *url, h, msgs, log)
 		})
 	default:
 		panic("invalid output destination")
